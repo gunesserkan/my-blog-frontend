@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    /* Resmi tüm ekrana yayar */
+    background-position: center;
+    /* Arka planı ortalar */
+    background-attachment: fixed;
+    background-image: url("./images/background2.avif")
+}
