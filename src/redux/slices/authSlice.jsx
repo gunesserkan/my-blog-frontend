@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios, { HttpStatusCode } from 'axios'
 
-const BASE_URL = "http://192.168.1.36:8080/api/v1";
+const BASE_URL = "http://localhost:8080/api/v1";
 
 
 

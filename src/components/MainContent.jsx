@@ -10,24 +10,21 @@ import Pagination from '@mui/material/Pagination';
 function MainContent() {
     const dispatch = useDispatch();
 
-    // Redux'tan alınan state'ler
     const posts = useSelector((store) => store.post.posts);
     const totalPages = useSelector((store) => store.post.totalPages);
-    const page = useSelector((store) => store.post.page); // Redux'taki mevcut sayfa numarasını alıyoruz
+    const page = useSelector((store) => store.post.page);
 
-    // Component yüklendiğinde veya page değiştiğinde veriyi çekmek için useEffect kullanıyoruz
     useEffect(() => {
-        dispatch(getAll(page)); // `getAll` fonksiyonuna `page` parametresini geçiriyoruz
+        dispatch(getAll(page));
     }, [dispatch, page]);
 
-    // Sayfa numarası değiştiğinde çağrılacak fonksiyon
     const handleChange = (event, value) => {
-        dispatch(setPage(value)); // Redux'taki sayfa numarasını günceller
+        dispatch(setPage(value));
     };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', minHeight: '100vh' }}>
-            <Grid container spacing={2} justifyContent="center"> {/* justifyContent ekleyerek ortalayın */}
+            <Grid container spacing={2} justifyContent="center">
                 {
                     posts && posts.map((post) => (
                         <Post key={post.id} post={post} />
