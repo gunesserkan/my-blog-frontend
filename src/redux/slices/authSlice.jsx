@@ -6,7 +6,8 @@ const BASE_URL = "http://localhost:8080/api/v1";
 
 
 const initialState = {
-    token: localStorage.getItem("bearerToken") || '',
+    token: localStorage.getItem("token"),
+    isAuth: false,
     loading: false,
     error: null,
 };
@@ -29,7 +30,15 @@ export const login = createAsyncThunk(
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            console.log("logout authslice")
+            state.token = ''
+            state.isAuth = false;
+            localStorage.removeItem("token")
+            console.log(localStorage.getItem("token"))
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state) => {
@@ -38,9 +47,9 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log("işte token:" + action.payload)
                 state.token = action.payload;
-                localStorage.setItem("token", state.token);
+                state.isAuth = true;
+                localStorage.setItem('token', state.token);
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
@@ -48,5 +57,7 @@ export const authSlice = createSlice({
             });
     }
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
