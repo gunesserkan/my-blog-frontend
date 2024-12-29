@@ -18,7 +18,6 @@ function Login() {
         const token = localStorage.getItem("bearerToken")
     }
 
-    //TODO: login ve register sayfalarını yap
     return (
         <div className='login-container'>
             <FormLogin login={handleLogin} />
