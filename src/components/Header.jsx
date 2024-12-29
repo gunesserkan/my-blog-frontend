@@ -35,7 +35,7 @@ function Header(props) {
     const handleLogout = () => {
         console.log("logout çalıştı")
         dispatch(logout())
-        setIsAuth(false)
+        redirect()
     }
 
     const drawer = (
