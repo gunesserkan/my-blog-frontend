@@ -6,19 +6,23 @@ import Button from '@mui/material/Button';
 import '../css/header.css'
 import ArticleIcon from '@mui/icons-material/Article';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../redux/slices/authSlice'
+import { useDispatch, useSelector } from 'react-redux';
 
 function Header(props) {
     const drawerWidth = 240;
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    const [isAuth, setIsAuth] = useState(false)
+    const isAuth = useSelector((state) => state.auth.isAuth)
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        (localStorage.getItem("token") !== null) ? setIsAuth(true) : setIsAuth(false)
-    }, [])
+    const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     (localStorage.getItem("token") !== null) ? setIsAuth(true) : setIsAuth(false)
+    // }, [])
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -26,6 +30,12 @@ function Header(props) {
 
     const redirect = () => {
         navigate("/login")
+    }
+
+    const handleLogout = () => {
+        console.log("logout çalıştı")
+        dispatch(logout())
+        redirect()
     }
 
     const drawer = (
@@ -66,7 +76,7 @@ function Header(props) {
                 </div>
                 <div className='header-column'>
                     {
-                        isAuth ? <Button variant='contained' >Logout</Button> : <Button variant='outlined' color='inherit' onClick={redirect}>Login / Register</Button>
+                        isAuth ? <Button variant='contained' color='error' onClick={handleLogout} >Logout</Button> : <Button variant='outlined' color='inherit' onClick={redirect}>Login / Register</Button>
                     }
                 </div>
             </div>

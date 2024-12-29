@@ -6,14 +6,14 @@ import '../../css/formlogin.css'
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-function FormLogin({ handleLogin }) {
+function FormLogin({ login }) {
 
     const navigate = useNavigate()
 
 
     const submit = (values, action) => {
         const { username, password } = values
-        handleLogin(username, password)
+        login(username, password)
     }
 
 
@@ -37,7 +37,7 @@ function FormLogin({ handleLogin }) {
                 className='input-username'
                 id='username'
                 label="Username"
-                defaultValue={values.username}
+                value={values.username}
                 onChange={handleChange}
                 sx={{ marginBottom: '10px' }}
             />
@@ -45,7 +45,7 @@ function FormLogin({ handleLogin }) {
                 className='input-password'
                 id='password'
                 label="password"
-                defaultValue={values.password}
+                value={values.password}
                 type='password'
                 onChange={handleChange}
                 sx={{ marginBottom: '10px' }}
