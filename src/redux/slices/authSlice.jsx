@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router-dom';
 const BASE_URL = "http://localhost:8080/api/v1";
 
 const initialState = {
-    token: localStorage.getItem("token"),
-    isAuth: false,
+    token: localStorage.getItem('token'),
+    isAuth: localStorage.getItem('isAuth'),
     loading: false,
     error: null,
-    user: '',
+    user: {
+        id: localStorage.getItem('userId'),
+        username: localStorage.getItem('username')
+    },
 };
 
 export const login = createAsyncThunk(
@@ -18,7 +21,13 @@ export const login = createAsyncThunk(
         try {
             const response = await axios.post(`${BASE_URL}/auth/login`, { "username": username, "password": password });
             if (response.status === HttpStatusCode.Ok) {
-                return response.headers['authorization'].split(' ')[1];
+                return {
+                    token: response.headers['authorization'].split(' ')[1],
+                    user: {
+                        id: response.data.id,
+                        username: response.data.username,
+                    },
+                };
             }
             return rejectWithValue("Login failed");
         } catch (error) {
@@ -52,9 +61,11 @@ export const registerUser = createAsyncThunk(
 
 export const fetchUserData = createAsyncThunk(
     "auth/fetchUserData",
-    async (location, { rejectWithValue }) => {
+    async (username, { getState, rejectWithValue }) => {
         try {
-            const response = await axios.post(location, data, {
+            const state = getState();
+            const token = state.auth.token;
+            const response = await axios.get(`${BASE_URL}/users/${username}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -86,8 +97,13 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                state.token = action.payload;
+                state.token = action.payload.token;
+                state.user.id = action.payload.user.id;
+                state.user.username = action.payload.user.username;
                 state.isAuth = true;
+                localStorage.setItem('isAuth', state.isAuth)
+                localStorage.setItem('userId', state.user.id)
+                localStorage.setItem('username', state.user.username)
                 localStorage.setItem('token', state.token);
             })
             .addCase(login.rejected, (state, action) => {
@@ -110,10 +126,10 @@ export const authSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(fetchUserData.fulfilled, (state, action) => {
-                return action.payload
+                console.log("istek çalıştı")
             })
             .addCase(fetchUserData.rejected, (state, action) => {
-                console.log("hata oluştu")
+                console.log("hata oluştu istek reddedildi")
             });
     }
 });

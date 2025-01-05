@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import '../css/login.css'
 import { login } from '../redux/slices/authSlice'
 import FormLogin from '../components/forms/FormLogin'
-import FormRegister from '../components/forms/FormRegister'
 import { useNavigate } from 'react-router-dom'
-import { Password } from '@mui/icons-material'
 
 function Login() {
     const dispatch = useDispatch()
-
     const navigate = useNavigate()
+
+    // Redux store'dan auth durumunu al
+    const { isAuth } = useSelector(state => state.auth)
 
     const handleLogin = (username, password) => {
         dispatch(login({ username, password }));
-        navigate("/home")
-        const token = localStorage.getItem("bearerToken")
     }
+
+    // Yönlendirme işlemi için useEffect kullan
+    useEffect(() => {
+        if (isAuth) {
+            navigate("/profile")  // Eğer kullanıcı giriş yaptıysa yönlendir
+        }
+    }, [isAuth, navigate])  // isAuthenticated değişirse yönlendirme gerçekleşir
 
     return (
         <div className='login-container'>
