@@ -3,23 +3,24 @@
 This is the frontend of the Blog Site, developed using React and JavaScript. It provides an interactive user interface for user registration, login, blog post creation, and a commenting system, making it easy for users to share and engage with content.
 
 ## Features
-## Features
 
 - **User Registration and Login**: 
   - A form for new users to create an account.
   - A secure login page for existing users.
 
+## Login
   ![Login Page](./screanshoots/LoginPage.PNG)
-
-   ![Register Page](./screanshoots/LoginPage.PNG)
+  
+## Register
+   ![Register Page](./screanshoots/RegisterPage.PNG)
 
 
 - **Blog Management**:
   - Users can create, edit, delete, and share their blog posts.
   - View all blog posts from various users.
 
+## Home
   ![Home Page](./screanshoots/Home.PNG)
-
   ![Home Page2](./screanshoots/HomeBottom.PNG)
 
   - **User Profile Management**: 
